@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BoxFlow — README</title>
+<style>
+  :root{ --bg:#1a1b2e; --panel:#242645; --accent:#ffce4d; --text:#eef0ff;
+         --sub:#aab; --code:#12131f; --line:#3d3f66; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);line-height:1.75;
+    font-family:-apple-system,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP","Noto Sans SC",sans-serif;}
+  .wrap{max-width:860px;margin:0 auto;padding:28px 20px 80px;}
+  h1{color:var(--accent);font-size:34px;letter-spacing:1px;margin:0 0 4px;}
+  h1 span{color:#5db9ff;}
+  .lead{color:var(--sub);margin-bottom:18px;}
+  .langbar{position:sticky;top:0;background:rgba(26,27,46,.95);backdrop-filter:blur(6px);
+    padding:10px 0;margin-bottom:14px;z-index:5;border-bottom:1px solid var(--line);}
+  .langbar button{background:var(--panel);color:var(--text);border:1px solid var(--line);
+    border-radius:999px;padding:7px 16px;margin-right:8px;font-size:14px;cursor:pointer;}
+  .langbar button.active{background:var(--accent);color:#222;border-color:var(--accent);font-weight:700;}
+  h2{color:var(--accent);border-bottom:2px solid var(--line);padding-bottom:6px;margin-top:40px;font-size:22px;}
+  h3{margin-top:26px;font-size:17px;color:#cdd3ff;}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:var(--panel);color:var(--accent);}
+  tr:nth-child(even) td{background:rgba(255,255,255,.03);}
+  code{background:var(--code);padding:2px 6px;border-radius:5px;font-size:.92em;
+    font-family:ui-monospace,Menlo,monospace;color:#ffd97a;}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;font-size:13px;}
+  ul{padding-left:22px;} li{margin:5px 0;}
+  .tip{background:var(--panel);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;
+    padding:12px 16px;margin:16px 0;font-size:14px;}
+  .star{color:var(--accent);}
+  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Box<span>Flow</span></h1>
+<p class="lead" id="lead">サーバー不要・単一HTMLファイルの倉庫番風パズルゲーム。スマホ（縦長）主体・PC対応。</p>
+
+<div class="langbar">
+  <button data-lang="ja" class="active">🇯🇵 日本語</button>
+  <button data-lang="en">🇬🇧 English</button>
+  <button data-lang="zh">🇨🇳 中文</button>
+</div>
+
+<!-- ======================= JA ======================= -->
+<div class="lang" id="lang-ja">
+<h2>特徴</h2>
+<ul>
+  <li>📱 スマホ主体の縦長レイアウト（safe-area対応）/ PCキーボード対応</li>
+  <li>🎮 スワイプ / 十字ボタン / 矢印・WASD の3系統入力</li>
+  <li>🔊 サウンド ON/OFF（Web Audio API 合成音、外部ファイル不要）</li>
+  <li>🌐 多言語（ja / en / zh、自動検出＋切替）</li>
+  <li>💾 localStorage に自動保存（クリア状態・ベスト手数・中断位置・設定）</li>
+  <li>🧩 全20面の段階的難易度。↩待避 / 🔄やり直し</li>
+  <li>⚖️ 依存ライブラリ・ビルド工程ゼロ</li>
+</ul>
+<h2>起動方法</h2>
+<p><code>index.html</code> をブラウザで開くだけ（<code>file://</code> OK・オフライン可）。静的ホスティングにもそのまま配置できます。</p>
+<h2>遊び方</h2>
+<p>箱を全ゴールに置いたらクリア。<strong>倉庫番ルール準拠</strong>（引けない／2個押せない／壁・盤外・箱の先へは動かせない）。</p>
+<table>
+  <tr><th>入力</th><th>スマホ</th><th>PC</th></tr>
+  <tr><td>移動</td><td>スワイプ / 十字ボタン</td><td>↑↓←→ / WASD</td></tr>
+  <tr><td>待避</td><td>↩ ボタン</td><td>Z / U</td></tr>
+  <tr><td>やり直し</td><td>🔄 ボタン</td><td>—</td></tr>
+</table>
+<h2>レベル一覧（全20面）</h2>
+<table>
+  <tr><th>面</th><th>テーマ</th><th>箱</th><th>難易度</th></tr>
+  <tr><td>1</td><td>真下に押すだけ（チュートリアル）</td><td>2</td><td class="star">★1</td></tr>
+  <tr><td>2</td><td>横方向の押し</td><td>2</td><td class="star">★1</td></tr>
+  <tr><td>3</td><td>角を曲がる</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>4</td><td>動順（邪魔箱を先にどかす）</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>5</td><td>2箱各1旋回・ルート選択</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>6</td><td>「上に押す」発想転換</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>7</td><td>ずれた3箱・下段横滑り</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>8</td><td>3箱一直線ゴール（順序）</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>9</td><td>壁際ゴールを埋める順序</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>10</td><td>4箱・動順＋旋回混在</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>11</td><td>3箱・共有通路の衝突</td><td>3</td><td class="star">★★★★</td></tr>
+  <tr><td>12</td><td>四隅対称アプローチ</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>13</td><td>H3「四隅集結」</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>14</td><td>二重扉のボトルネック</td><td>3</td><td class="star">★★★★+</td></tr>
+  <tr><td>15</td><td>H1「二重迂回」</td><td>4</td><td class="star">★★★★★</td></tr>
+  <tr><td>16</td><td>H2「六枠回転」</td><td>6</td><td class="star">★★★★★+</td></tr>
+  <tr><td>17</td><td>五通路・サービス列</td><td>5</td><td class="star">★★★★★+</td></tr>
+  <tr><td>18</td><td>逆流配分</td><td>6</td><td class="star">★★★★★+</td></tr>
+  <tr><td>19</td><td>六枠サービス列</td><td>6</td><td class="star">★★★★★++</td></tr>
+  <tr><td>20</td><td><strong>元祖倉庫番レベル1風（最終面）</strong></td><td>6</td><td class="star">★★★★★++</td></tr>
+</table>
+<div class="tip">全20面は解存在を検証済み。詰み状態になり得る面があるため待避・やり直し前提です（倉庫番の本質）。</div>
+<h2>セーブデータ</h2>
+<p>キー <code>boxflow_save_v1</code>。面ごとに <code>done</code> / <code>best</code> / <code>state</code> を保存。初期化は開発者ツールで当該キーを削除してください。</p>
+<h2>技術メモ</h2>
+<ul>
+  <li>単一HTML（HTML + CSS + Vanilla JS）。盤面は2D配列管理</li>
+  <li>レベル定義: 行文字列配列（<code>#</code>壁 <code>.</code>ゴール <code>$</code>箱 <code>@</code>PL スペース床）。<code>LEVELS</code> への追記だけで面追加可能</li>
+  <li>サウンドは初回ユーザー操作で AudioContext をアンロック（自動再生ポリシー準拠。初回タップのみ無音の場合あり）</li>
+</ul>
+<h2>修正履歴</h2>
+<table>
+  <tr><th>版</th><th>内容</th></tr>
+  <tr><td>v1.0–1.1</td><td>初回リリース／<code>LEVELS[0].split</code> エラー修正・盤外ガード追加</td></tr>
+  <tr><td>v1.2–1.4</td><td>8→15面拡張、レベル進行・ベスト手数、AudioContext警告対応、上級面追加</td></tr>
+  <tr><td>v1.5</td><td>やり直し時に render() が呼ばれ画面が更新されない不具合修正</td></tr>
+  <tr><td>v1.6</td><td>L18確定版差し替え・L19「六枠サービス列」追加・元祖面を最終L20に（全20面）</td></tr>
+</table>
+</div>
+
+<!-- ======================= EN ======================= -->
+<div class="lang" id="lang-en" style="display:none">
+<h2>Features</h2>
+<ul>
+  <li>📱 Mobile-first portrait layout (safe-area aware) / keyboard support on PC</li>
+  <li>🎮 Three input methods: swipe / on-screen D-pad / arrows &amp; WASD</li>
+  <li>🔊 Sound on/off (Web Audio API synthesis, no external files)</li>
+  <li>🌐 Multilingual (ja / en / zh, auto-detect + manual switch)</li>
+  <li>💾 Auto-save to localStorage (progress, best moves, mid-level state, settings)</li>
+  <li>🧩 20 levels with a smooth difficulty curve. Undo / Restart</li>
+  <li>⚖️ Zero dependencies, zero build steps</li>
+</ul>
+<h2>Getting started</h2>
+<p>Open <code>index.html</code> in any modern browser (works via <code>file://</code>, fully offline). Deployable on any static host.</p>
+<h2>How to play</h2>
+<p>Push every box onto a glowing goal. <strong>Standard Sokoban rules</strong>: no pulling, no double pushes, blocked by walls, other boxes and edges.</p>
+<table>
+  <tr><th>Action</th><th>Mobile</th><th>PC</th></tr>
+  <tr><td>Move</td><td>Swipe / D-pad</td><td>Arrows / WASD</td></tr>
+  <tr><td>Undo</td><td>↩ button</td><td>Z / U</td></tr>
+  <tr><td>Restart</td><td>🔄 button</td><td>—</td></tr>
+</table>
+<h2>Levels (20 total)</h2>
+<table>
+  <tr><th>#</th><th>Theme</th><th>Boxes</th><th>Difficulty</th></tr>
+  <tr><td>1</td><td>Push straight down (tutorial)</td><td>2</td><td class="star">★1</td></tr>
+  <tr><td>2</td><td>Horizontal pushes</td><td>2</td><td class="star">★1</td></tr>
+  <tr><td>3</td><td>First corner turn</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>4</td><td>Move order (clear the blocker first)</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>5</td><td>Two boxes, one turn each / route choice</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>6</td><td>Push upward — rethink</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>7</td><td>Offset trio, bottom-row slides</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>8</td><td>Three boxes, straight goal row (ordering)</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>9</td><td>Fill wall-side goals in order</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>10</td><td>Four boxes, order + turns mixed</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>11</td><td>Shared corridor conflict</td><td>3</td><td class="star">★★★★</td></tr>
+  <tr><td>12</td><td>Symmetric four-corner approach</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>13</td><td>H3 &quot;Four Corners Rally&quot;</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>14</td><td>Double-door bottleneck</td><td>3</td><td class="star">★★★★+</td></tr>
+  <tr><td>15</td><td>H1 &quot;Double Detour&quot;</td><td>4</td><td class="star">★★★★★</td></tr>
+  <tr><td>16</td><td>H2 &quot;Six-Slot Rotation&quot;</td><td>6</td><td class="star">★★★★★+</td></tr>
+  <tr><td>17</td><td>Five-lane service column</td><td>5</td><td class="star">★★★★★+</td></tr>
+  <tr><td>18</td><td>Counter-flow distribution</td><td>6</td><td class="star">★★★★★+</td></tr>
+  <tr><td>19</td><td>Six-slot service column</td><td>6</td><td class="star">★★★★★++</td></tr>
+  <tr><td>20</td><td><strong>Classic Sokoban L1 homage (final)</strong></td><td>6</td><td class="star">★★★★★++</td></tr>
+</table>
+<div class="tip">All levels verified solvable. Dead-end states are possible — undo/restart are part of the game.</div>
+<h2>Save data</h2>
+<p>Key <code>boxflow_save_v1</code> in localStorage; per level: <code>done</code>, <code>best</code>, <code>state</code>. Delete the key to reset.</p>
+<h2>Tech notes</h2>
+<ul>
+  <li>Single HTML file (HTML + CSS + vanilla JS); board managed as 2D arrays</li>
+  <li>Levels are row-string arrays (<code>#</code> wall, <code>.</code> goal, <code>$</code> box, <code>@</code> player). Append to <code>LEVELS</code> to add more</li>
+  <li>AudioContext unlocked on first user gesture (autoplay-policy compliant; the very first tap may be silent)</li>
+</ul>
+<h2>Changelog</h2>
+<table>
+  <tr><th>Ver</th><th>Changes</th></tr>
+  <tr><td>v1.0–1.1</td><td>Initial release / fixed LEVELS[0].split error, added bounds guards</td></tr>
+  <tr><td>v1.2–1.4</td><td>Expanded to 8→15 levels, level progression &amp; best moves, AudioContext warning fix, advanced levels</td></tr>
+  <tr><td>v1.5</td><td>Fixed restart not re-rendering the board</td></tr>
+  <tr><td>v1.6</td><td>Finalized L18, added L19 &quot;Six-slot service column&quot;, moved classic to final L20 (20 levels)</td></tr>
+</table>
+</div>
+
+<!-- ======================= ZH ======================= -->
+<div class="lang" id="lang-zh" style="display:none">
+<h2>特性</h2>
+<ul>
+  <li>📱 手机优先竖屏布局（适配安全区）/ PC 键盘支持</li>
+  <li>🎮 三种操作：滑动 / 屏幕方向键 / 方向键与 WASD</li>
+  <li>🔊 音效开关（Web Audio API 合成音，无需外部文件）</li>
+  <li>🌐 多语言（ja / en / zh，自动检测＋手动切换）</li>
+  <li>💾 localStorage 自动保存（通关状态、最佳步数、中断进度、设置）</li>
+  <li>🧩 共 20 关难度递进。↩撤销 / 🔄重来</li>
+  <li>⚖️ 零依赖、零构建</li>
+</ul>
+<h2>启动方式</h2>
+<p>用浏览器打开 <code>index.html</code> 即可（支持 <code>file://</code>，可离线），可直接部署到任意静态托管。</p>
+<h2>玩法</h2>
+<p>把所有箱子推到发光目标点。<strong>推箱子规则</strong>：不能拉、不能同时推两个、不可推入墙/箱/边界外。</p>
+<table>
+  <tr><th>操作</th><th>手机</th><th>PC</th></tr>
+  <tr><td>移动</td><td>滑动 / 方向键</td><td>↑↓←→ / WASD</td></tr>
+  <tr><td>撤销</td><td>↩ 按钮</td><td>Z / U</td></tr>
+  <tr><td>重来</td><td>🔄 按钮</td><td>—</td></tr>
+</table>
+<h2>关卡一览（共20关）</h2>
+<table>
+  <tr><th>关</th><th>主题</th><th>箱数</th><th>难度</th></tr>
+  <tr><td>1</td><td>直下推（新手教程）</td><td>2</td><td class="star">★1</td></tr>
+  <tr><td>2</td><td>横向推动</td><td>2</td><td class="star">★1</td></tr>
+  <tr><td>3</td><td>首次转弯</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>4</td><td>移动顺序（先移开路箱）</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>5</td><td>双箱各一弯 / 路线选择</td><td>2</td><td class="star">★★</td></tr>
+  <tr><td>6</td><td>向上推的思维转换</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>7</td><td>错位三箱·下排横滑</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>8</td><td>三箱直线目标（顺序）</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>9</td><td>贴墙目标按序填充</td><td>3</td><td class="star">★★★</td></tr>
+  <tr><td>10</td><td>四箱·顺序＋转弯混合</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>11</td><td>共用通道冲突</td><td>3</td><td class="star">★★★★</td></tr>
+  <tr><td>12</td><td>四角对称逼近</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>13</td><td>H3「四角集结」</td><td>4</td><td class="star">★★★★</td></tr>
+  <tr><td>14</td><td>双门瓶颈</td><td>3</td><td class="star">★★★★+</td></tr>
+  <tr><td>15</td><td>H1「双重迂回」</td><td>4</td><td class="star">★★★★★</td></tr>
+  <tr><td>16</td><td>H2「六格旋转」</td><td>6</td><td class="star">★★★★★+</td></tr>
+  <tr><td>17</td><td>五通道服务列</td><td>5</td><td class="star">★★★★★+</td></tr>
+  <tr><td>18</td><td>逆流分配</td><td>6</td><td class="star">★★★★★+</td></tr>
+  <tr><td>19</td><td>六格服务列</td><td>6</td><td class="star">★★★★★++</td></tr>
+  <tr><td>20</td><td><strong>元祖推箱子第1关致敬（最终关）</strong></td><td>6</td><td class="star">★★★★★++</td></tr>
+</table>
+<div class="tip">全部关卡均已验证可解。部分关卡可能走入死局，撤销/重来是游戏的一部分。</div>
+<h2>存档</h2>
+<p>localStorage 键 <code>boxflow_save_v1</code>，每关含 <code>done</code> / <code>best</code> / <code>state</code>。删除该键即可重置。</p>
+<h2>技术说明</h2>
+<ul>
+  <li>单 HTML 文件（HTML + CSS + 原生 JS），盘面用二维数组管理</li>
+  <li>关卡为行字符串数组（<code>#</code>墙 <code>.</code>目标 <code>$</code>箱 <code>@</code>玩家），向 <code>LEVELS</code> 追加即可加关</li>
+  <li>首次用户操作解锁 AudioContext（符合自动播放策略，首次点击可能无声）</li>
+</ul>
+<h2>更新日志</h2>
+<table>
+  <tr><th>版本</th><th>内容</th></tr>
+  <tr><td>v1.0–1.1</td><td>首发 / 修复 LEVELS[0].split 错误、增加越界保护</td></tr>
+  <tr><td>v1.2–1.4</td><td>扩展至 8→15 关、关卡进度与最佳步数、修复 AudioContext 警告、追加高难关卡</td></tr>
+  <tr><td>v1.5</td><td>修复重按重来按钮不刷新画面的问题</td></tr>
+  <tr><td>v1.6</td><td>确定版 L18、新增 L19「六格服务列」、元祖关移至最终 L20（共20关）</td></tr>
+</table>
+</div>
+
+<h2 id="license">License / クレジット / 许可</h2>
+<p>本作为受《仓库番（Sokoban, 1982）》启发之原创实现；标题「BoxFlow」・图形・代码均为原创。L20 为经典第1关之致敬布局。代码可自由使用（欢迎注明出处）。<br>
+An original implementation inspired by Sokoban (1982). Title, graphics and code are original. L20 is a homage to the classic level 1.</p>
+
+<footer>Made with Vanilla JS. Enjoy pushing boxes! 📦</footer>
+</div>
+
+<script>
+(function(){
+  const LEADS={
+    ja:"サーバー不要・単一HTMLファイルの倉庫番風パズルゲーム。スマホ（縦長）主体・PC対応。",
+    en:"A single-file Sokoban-style puzzle game. No server needed. Mobile-first (portrait), also great on PC.",
+    zh:"单文件推箱子风格解谜游戏。无需服务器，手机竖屏优先，同时支持电脑。"
+  };
+  const btns=document.querySelectorAll(".langbar button");
+  function show(lang){
+    document.querySelectorAll(".lang").forEach(el=>el.style.display="none");
+    document.getElementById("lang-"+lang).style.display="";
+    btns.forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+    document.getElementById("lead").textContent=LEADS[lang];
+    document.documentElement.lang=lang;
+    try{ localStorage.setItem("boxflow_readme_lang",lang); }catch(e){}
+  }
+  btns.forEach(b=>b.onclick=()=>show(b.dataset.lang));
+  let saved=null;
+  try{ saved=localStorage.getItem("boxflow_readme_lang"); }catch(e){}
+  const nav=(navigator.language||"en").slice(0,2);
+  const initial = ["ja","en","zh"].includes(saved)?saved:(["ja","en","zh"].includes(nav)?nav:"en");
+  show(initial);
+})();
+</script>
+</body>
+</html>
