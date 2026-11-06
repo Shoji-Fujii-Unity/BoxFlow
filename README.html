@@ -6,13 +6,15 @@
 <title>BoxFlow — README</title>
 <style>
   :root{ --bg:#1a1b2e; --panel:#242645; --accent:#ffce4d; --text:#eef0ff;
-         --sub:#aab; --code:#12131f; --line:#3d3f66; }
+         --sub:#aab; --code:#12131f; --line:#3d3f66; --new:#5ddc8f; }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--text);line-height:1.75;
     font-family:-apple-system,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP","Noto Sans SC",sans-serif;}
   .wrap{max-width:860px;margin:0 auto;padding:28px 20px 80px;}
   h1{color:var(--accent);font-size:34px;letter-spacing:1px;margin:0 0 4px;}
   h1 span{color:#5db9ff;}
+  .ver{display:inline-block;background:var(--accent);color:#222;font-weight:700;
+    border-radius:999px;padding:2px 12px;font-size:13px;margin-left:10px;vertical-align:middle;}
   .lead{color:var(--sub);margin-bottom:18px;}
   .langbar{position:sticky;top:0;background:rgba(26,27,46,.95);backdrop-filter:blur(6px);
     padding:10px 0;margin-bottom:14px;z-index:5;border-bottom:1px solid var(--line);}
@@ -31,15 +33,18 @@
   ul{padding-left:22px;} li{margin:5px 0;}
   .tip{background:var(--panel);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;
     padding:12px 16px;margin:16px 0;font-size:14px;}
-  .star{color:var(--accent);}
+  .star{color:var(--accent);white-space:nowrap;}
+  .par{color:#5db9ff;font-weight:700;}
+  .new{color:var(--new);font-size:12px;font-weight:700;}
+  .re{color:#ff9d6b;font-size:12px;font-weight:700;}
   footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<h1>Box<span>Flow</span></h1>
-<p class="lead" id="lead">サーバー不要・単一HTMLファイルの倉庫番風パズルゲーム。スマホ（縦長）主体・PC対応。</p>
+<h1>Box<span>Flow</span><span class="ver">v2.0</span></h1>
+<p class="lead">サーバー不要・単一HTMLファイルの倉庫番風パズルゲーム。スマホ（縦長）主体・PC対応。v2.0で全30面・レベル選択・★評価・パー導入。</p>
 
 <div class="langbar">
   <button data-lang="ja" class="active">🇯🇵 日本語</button>
@@ -53,11 +58,14 @@
 <ul>
   <li>📱 スマホ主体の縦長レイアウト（safe-area対応）/ PCキーボード対応</li>
   <li>🎮 スワイプ / 十字ボタン / 矢印・WASD の3系統入力</li>
-  <li>🔊 サウンド ON/OFF（Web Audio API 合成音、外部ファイル不要）</li>
-  <li>🌐 多言語（ja / en / zh、自動検出＋切替）</li>
-  <li>💾 localStorage に自動保存（クリア状態・ベスト手数・中断位置・設定）</li>
-  <li>🧩 全20面の段階的難易度。↩待避 / 🔄やり直し</li>
-  <li>⚖️ 依存ライブラリ・ビルド工程ゼロ</li>
+  <li>🗂 <strong>レベルセレクション</strong>（30面グリッド：ロック／クリア／★／ベスト手数。Lキーでも開閉）</li>
+  <li>⭐ <strong>★評価とパー（目標手数）</strong>：全面にA*検証済みのパーを設定</li>
+  <li>🧩 <strong>全30面</strong>の段階的難易度（v1.6の20面を全継承＋新11面＋刷新1面）。↩待避 / 🔄やり直し</li>
+  <li>✨ 箱とプレイヤーのスライドアニメーション、クリア時コンフェティ、バイブ（対応端末）</li>
+  <li>🔤 Google Fonts（Outfit / Zen Maru Gothic）— 唯一の外部参照。オフライン時はシステムフォールバック</li>
+  <li>🔊 サウンド ON/OFF（Web Audio API 合成音）／ 🌐 多言語（ja / en / zh）</li>
+  <li>💾 <code>localStorage</code> 自動保存（v2形式、旧 v1 からの自動マイグレーション付き）</li>
+  <li>⚖️ 実行時の依存ライブラリ・ビルド工程ゼロ（<code>tools/</code> は開発用）</li>
 </ul>
 <h2>起動方法</h2>
 <p><code>index.html</code> をブラウザで開くだけ（<code>file://</code> OK・オフライン可）。静的ホスティングにもそのまま配置できます。</p>
@@ -67,211 +75,268 @@
   <tr><th>入力</th><th>スマホ</th><th>PC</th></tr>
   <tr><td>移動</td><td>スワイプ / 十字ボタン</td><td>↑↓←→ / WASD</td></tr>
   <tr><td>待避</td><td>↩ ボタン</td><td>Z / U</td></tr>
-  <tr><td>やり直し</td><td>🔄 ボタン</td><td>—</td></tr>
+  <tr><td>やり直し</td><td>🔄 ボタン</td><td>R</td></tr>
+  <tr><td>レベル選択</td><td>面名チップタップ</td><td>L</td></tr>
+  <tr><td>サウンド</td><td>🔊 ボタン</td><td>M</td></tr>
+  <tr><td>閉じる</td><td>×</td><td>Esc</td></tr>
 </table>
-<h2>レベル一覧（全20面）</h2>
+<h3>★評価とパー</h3>
+<p>パー＝<code>tools/solver.mjs</code> のA*が検証した「プッシュ回数最小の解」の実手数（歩数＋押数）。全局最短手数とは異なる場合があります。</p>
 <table>
-  <tr><th>面</th><th>テーマ</th><th>箱</th><th>難易度</th></tr>
-  <tr><td>1</td><td>真下に押すだけ（チュートリアル）</td><td>2</td><td class="star">★1</td></tr>
-  <tr><td>2</td><td>横方向の押し</td><td>2</td><td class="star">★1</td></tr>
-  <tr><td>3</td><td>角を曲がる</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>4</td><td>動順（邪魔箱を先にどかす）</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>5</td><td>2箱各1旋回・ルート選択</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>6</td><td>「上に押す」発想転換</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>7</td><td>ずれた3箱・下段横滑り</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>8</td><td>3箱一直線ゴール（順序）</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>9</td><td>壁際ゴールを埋める順序</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>10</td><td>4箱・動順＋旋回混在</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>11</td><td>3箱・共有通路の衝突</td><td>3</td><td class="star">★★★★</td></tr>
-  <tr><td>12</td><td>四隅対称アプローチ</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>13</td><td>H3「四隅集結」</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>14</td><td>二重扉のボトルネック</td><td>3</td><td class="star">★★★★+</td></tr>
-  <tr><td>15</td><td>H1「二重迂回」</td><td>4</td><td class="star">★★★★★</td></tr>
-  <tr><td>16</td><td>H2「六枠回転」</td><td>6</td><td class="star">★★★★★+</td></tr>
-  <tr><td>17</td><td>五通路・サービス列</td><td>5</td><td class="star">★★★★★+</td></tr>
-  <tr><td>18</td><td>逆流配分</td><td>6</td><td class="star">★★★★★+</td></tr>
-  <tr><td>19</td><td>六枠サービス列</td><td>6</td><td class="star">★★★★★++</td></tr>
-  <tr><td>20</td><td><strong>元祖倉庫番レベル1風（最終面）</strong></td><td>6</td><td class="star">★★★★★++</td></tr>
+  <tr><th>★</th><th>条件</th></tr>
+  <tr><td class="star">★★★</td><td>手数 ≤ パー</td></tr>
+  <tr><td class="star">★★</td><td>手数 ≤ ⌈パー×1.4⌉</td></tr>
+  <tr><td class="star">★</td><td>クリア（それ以上）</td></tr>
 </table>
-<div class="tip">全20面は解存在を検証済み。詰み状態になり得る面があるため待避・やり直し前提です（倉庫番の本質）。</div>
+<h2>レベル一覧（全30面）</h2>
+<table>
+  <tr><th>面</th><th>テーマ</th><th>箱</th><th>難易度</th><th>パー</th></tr>
+  <tr><td>1</td><td>真下だけ（チュートリアル）</td><td>2</td><td class="star">★1</td><td class="par">14</td></tr>
+  <tr><td>2</td><td>横に押す</td><td>2</td><td class="star">★1</td><td class="par">16</td></tr>
+  <tr><td>3</td><td>角を曲がる</td><td>2</td><td class="star">★★</td><td class="par">16</td></tr>
+  <tr><td>4</td><td>動順（邪魔箱を先にどかす）</td><td>2</td><td class="star">★★</td><td class="par">18</td></tr>
+  <tr><td>5</td><td>2つの道・ルート選択</td><td>2</td><td class="star">★★</td><td class="par">19</td></tr>
+  <tr><td>6</td><td>肘の通路 <span class="new">🆕</span></td><td>3</td><td class="star">★★★</td><td class="par">30</td></tr>
+  <tr><td>7</td><td>上へ上へ通路 <span class="new">🆕</span></td><td>3</td><td class="star">★★★</td><td class="par">35</td></tr>
+  <tr><td>8</td><td>上に押す（発想転換）</td><td>3</td><td class="star">★★★</td><td class="par">27</td></tr>
+  <tr><td>9</td><td>下段横滑り</td><td>2</td><td class="star">★★★</td><td class="par">17</td></tr>
+  <tr><td>10</td><td>中央の島 <span class="new">🆕</span></td><td>4</td><td class="star">★★★</td><td class="par">43</td></tr>
+  <tr><td>11</td><td>一直線の3箱（順序）</td><td>3</td><td class="star">★★★</td><td class="par">24</td></tr>
+  <tr><td>12</td><td>壁際順序</td><td>3</td><td class="star">★★★</td><td class="par">41</td></tr>
+  <tr><td>13</td><td>四方の壁 <span class="new">🆕</span></td><td>4</td><td class="star">★★★★</td><td class="par">36</td></tr>
+  <tr><td>14</td><td>動順＋旋回混在</td><td>4</td><td class="star">★★★★</td><td class="par">35</td></tr>
+  <tr><td>15</td><td>通路の衝突</td><td>3</td><td class="star">★★★★</td><td class="par">25</td></tr>
+  <tr><td>16</td><td>四隅対称アプローチ</td><td>4</td><td class="star">★★★★</td><td class="par">43</td></tr>
+  <tr><td>17</td><td>角ターゲット <span class="new">🆕</span></td><td>4</td><td class="star">★★★★</td><td class="par">45</td></tr>
+  <tr><td>18</td><td>四隅集結</td><td>4</td><td class="star">★★★★</td><td class="par">93</td></tr>
+  <tr><td>19</td><td>二重扉のボトルネック</td><td>3</td><td class="star">★★★★+</td><td class="par">54</td></tr>
+  <tr><td>20</td><td>二つの部屋 <span class="new">🆕</span></td><td>3</td><td class="star">★★★★+</td><td class="par">67</td></tr>
+  <tr><td>21</td><td>二重迂回</td><td>4</td><td class="star">★★★★★</td><td class="par">56</td></tr>
+  <tr><td>22</td><td>整列袋小路 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★+</td><td class="par">58</td></tr>
+  <tr><td>23</td><td>六枠回転</td><td>6</td><td class="star">★★★★★+</td><td class="par">115</td></tr>
+  <tr><td>24</td><td>五つの肘 <span class="new">🆕</span></td><td>5</td><td class="star">★★★★★</td><td class="par">205</td></tr>
+  <tr><td>25</td><td>五通路</td><td>5</td><td class="star">★★★★★+</td><td class="par">217</td></tr>
+  <tr><td>26</td><td>逆流配分 <span class="re">♻刷新</span></td><td>6</td><td class="star">★★★★★+</td><td class="par">111</td></tr>
+  <tr><td>27</td><td>大迂回 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★+</td><td class="par">161</td></tr>
+  <tr><td>28</td><td>大渋滞 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★++</td><td class="par">110</td></tr>
+  <tr><td>29</td><td>大行列 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★++</td><td class="par">91</td></tr>
+  <tr><td>30</td><td><strong>元祖オマージュ（最終面）</strong></td><td>6</td><td class="star">★★★★★++</td><td class="par">355</td></tr>
+</table>
+<div class="tip">🆕=v2.0で追加 ♻=レイアウト刷新（旧「六枠サービス列」は検証限界を超えたためA*検証済みの「大渋滞」に差し替え）。<strong>全30面はバンドル済みA*ソルバーで解存在を検証済み</strong>（結果は <code>tools/par-cache.json</code>）。詰み状態になり得る面があるため待避・やり直し前提（倉庫番の本質）。</div>
 <h2>セーブデータ</h2>
-<p>キー <code>boxflow_save_v1</code>。面ごとに <code>done</code> / <code>best</code> / <code>state</code> を保存。初期化は開発者ツールで当該キーを削除してください。</p>
+<p>キー <code>boxflow_save_v2</code>（localStorage）。面ごとに <code>done</code> / <code>best</code> / <code>stars</code> / <code>state</code>、全体で <code>lang</code> / <code>sound</code> / <code>next</code>。旧 20面構成の <code>boxflow_save_v1</code> からは自動マイグレーション（クリア・ベストは対応する新面へ、中断位置はレイアウト不変の面のみ復元）。初期化は開発者ツールから当該キーを削除。</p>
 <h2>技術メモ</h2>
 <ul>
-  <li>単一HTML（HTML + CSS + Vanilla JS）。盤面は2D配列管理</li>
-  <li>レベル定義: 行文字列配列（<code>#</code>壁 <code>.</code>ゴール <code>$</code>箱 <code>@</code>PL スペース床）。<code>LEVELS</code> への追記だけで面追加可能</li>
-  <li>サウンドは初回ユーザー操作で AudioContext をアンロック（自動再生ポリシー準拠。初回タップのみ無音の場合あり）</li>
+  <li>単一HTML（HTML+CSS+Vanilla JS）。静的タイル＋絶対配置スプライトでスライドアニメを実現</li>
+  <li>レベル定義: 行文字列配列（<code>#</code>壁 <code>.</code>ゴール <code>$</code>箱 <code>@</code>PL 空白=床）。編集は <code>tools/levels-data.mjs</code> → <code>node tools/build-levels.mjs</code> で <code>index.html</code> に注入</li>
+  <li><code>tools/</code>（開発用）: <code>solver.mjs</code>＝push最適A*（押距離×ハガリー割当ヒューリスティック、角フリーズ・2×2袋小路枝刈り）／<code>build-levels.mjs</code>＝全面検証とパー注入／<code>gen-level.mjs</code>＝pull逆向き生成（解保証面）／<code>par-cache.json</code>＝検証結果</li>
+  <li>フォントは Google Fonts CDN を参照（唯一の外部依存）。不通時はシステムフォールバックで遊技継続可</li>
+  <li>サウンドは初回ユーザー操作で AudioContext をアンロック（自動再生ポリシー準拠、初回タップのみ無音の場合あり）。対応端末では操作・クリア時にバイブ</li>
 </ul>
 <h2>修正履歴</h2>
 <table>
   <tr><th>版</th><th>内容</th></tr>
-  <tr><td>v1.0–1.1</td><td>初回リリース／<code>LEVELS[0].split</code> エラー修正・盤外ガード追加</td></tr>
-  <tr><td>v1.2–1.4</td><td>8→15面拡張、レベル進行・ベスト手数、AudioContext警告対応、上級面追加</td></tr>
-  <tr><td>v1.5</td><td>やり直し時に render() が呼ばれ画面が更新されない不具合修正</td></tr>
+  <tr><td>v1.0–1.1</td><td>初回リリース／<code>LEVELS[0].split</code> エラー修正・盤外ガード</td></tr>
+  <tr><td>v1.2–1.4</td><td>8→15面拡張、レベル進行、AudioContext警告対応、上級面追加</td></tr>
+  <tr><td>v1.5</td><td>やり直し時の <code>render()</code> 欠落修正</td></tr>
   <tr><td>v1.6</td><td>L18確定版差し替え・L19「六枠サービス列」追加・元祖面を最終L20に（全20面）</td></tr>
+  <tr><td><strong>v2.0</strong></td><td><strong>全30面化</strong>（新11面＋「逆流配分」刷新＋「六枠サービス列」→「大渋滞」）／レベルセレクション（ロック・★・ベスト）／★評価とパー／スライドアニメ・コンフェティ／Google Fonts（オフラインフォールバック）／ショートカット拡充（R・L・M・Esc）／バイブ／save v2＋v1自動マイグレーション／全面を同梱A*ソルバーで検証</td></tr>
 </table>
 </div>
 
 <!-- ======================= EN ======================= -->
-<div class="lang" id="lang-en" style="display:none">
+<div class="lang" id="lang-en" hidden>
 <h2>Features</h2>
 <ul>
   <li>📱 Mobile-first portrait layout (safe-area aware) / keyboard support on PC</li>
-  <li>🎮 Three input methods: swipe / on-screen D-pad / arrows &amp; WASD</li>
-  <li>🔊 Sound on/off (Web Audio API synthesis, no external files)</li>
-  <li>🌐 Multilingual (ja / en / zh, auto-detect + manual switch)</li>
-  <li>💾 Auto-save to localStorage (progress, best moves, mid-level state, settings)</li>
-  <li>🧩 20 levels with a smooth difficulty curve. Undo / Restart</li>
-  <li>⚖️ Zero dependencies, zero build steps</li>
+  <li>🎮 Swipe / on-screen D-pad / arrows &amp; WASD</li>
+  <li>🗂 <strong>Level selection</strong> (30-tile grid: lock / clear / stars / best; <code>L</code> key)</li>
+  <li>⭐ <strong>Star rating &amp; par</strong> — every level ships with an A*-verified par</li>
+  <li>🧩 <strong>30 levels</strong> (all 20 from v1.6 kept + 11 new + 1 redesigned). Undo / Restart</li>
+  <li>✨ Sliding box/player animations, win confetti, haptics where supported</li>
+  <li>🔤 Google Fonts (Outfit / Zen Maru Gothic) — the only external reference; system fallback offline</li>
+  <li>🔊 Sound on/off (Web Audio API) / 🌐 Multilingual (ja / en / zh)</li>
+  <li>💾 <code>localStorage</code> auto-save (v2 format, auto-migrates from v1)</li>
+  <li>⚖️ Zero runtime dependencies, zero build steps (<code>tools/</code> is dev-only)</li>
 </ul>
 <h2>Getting started</h2>
-<p>Open <code>index.html</code> in any modern browser (works via <code>file://</code>, fully offline). Deployable on any static host.</p>
+<p>Open <code>index.html</code> in any modern browser (<code>file://</code> OK, fully offline). Deployable on any static host.</p>
 <h2>How to play</h2>
-<p>Push every box onto a glowing goal. <strong>Standard Sokoban rules</strong>: no pulling, no double pushes, blocked by walls, other boxes and edges.</p>
+<p>Push all boxes onto the glowing goals. <strong>Standard Sokoban rules</strong> (no pulling, no double pushes, blocked by walls/boxes/edges).</p>
 <table>
-  <tr><th>Action</th><th>Mobile</th><th>PC</th></tr>
+  <tr><th>Input</th><th>Mobile</th><th>PC</th></tr>
   <tr><td>Move</td><td>Swipe / D-pad</td><td>Arrows / WASD</td></tr>
   <tr><td>Undo</td><td>↩ button</td><td>Z / U</td></tr>
-  <tr><td>Restart</td><td>🔄 button</td><td>—</td></tr>
+  <tr><td>Restart</td><td>🔄 button</td><td>R</td></tr>
+  <tr><td>Levels</td><td>Tap level chip</td><td>L</td></tr>
+  <tr><td>Sound</td><td>🔊 button</td><td>M</td></tr>
+  <tr><td>Close</td><td>×</td><td>Esc</td></tr>
 </table>
-<h2>Levels (20 total)</h2>
+<h3>Stars &amp; par</h3>
+<p>Par = move count (steps + pushes) of an A*-verified push-optimal solution. The absolute fewest-move solution may occasionally be lower.</p>
 <table>
-  <tr><th>#</th><th>Theme</th><th>Boxes</th><th>Difficulty</th></tr>
-  <tr><td>1</td><td>Push straight down (tutorial)</td><td>2</td><td class="star">★1</td></tr>
-  <tr><td>2</td><td>Horizontal pushes</td><td>2</td><td class="star">★1</td></tr>
-  <tr><td>3</td><td>First corner turn</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>4</td><td>Move order (clear the blocker first)</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>5</td><td>Two boxes, one turn each / route choice</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>6</td><td>Push upward — rethink</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>7</td><td>Offset trio, bottom-row slides</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>8</td><td>Three boxes, straight goal row (ordering)</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>9</td><td>Fill wall-side goals in order</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>10</td><td>Four boxes, order + turns mixed</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>11</td><td>Shared corridor conflict</td><td>3</td><td class="star">★★★★</td></tr>
-  <tr><td>12</td><td>Symmetric four-corner approach</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>13</td><td>H3 &quot;Four Corners Rally&quot;</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>14</td><td>Double-door bottleneck</td><td>3</td><td class="star">★★★★+</td></tr>
-  <tr><td>15</td><td>H1 &quot;Double Detour&quot;</td><td>4</td><td class="star">★★★★★</td></tr>
-  <tr><td>16</td><td>H2 &quot;Six-Slot Rotation&quot;</td><td>6</td><td class="star">★★★★★+</td></tr>
-  <tr><td>17</td><td>Five-lane service column</td><td>5</td><td class="star">★★★★★+</td></tr>
-  <tr><td>18</td><td>Counter-flow distribution</td><td>6</td><td class="star">★★★★★+</td></tr>
-  <tr><td>19</td><td>Six-slot service column</td><td>6</td><td class="star">★★★★★++</td></tr>
-  <tr><td>20</td><td><strong>Classic Sokoban L1 homage (final)</strong></td><td>6</td><td class="star">★★★★★++</td></tr>
+  <tr><th>Stars</th><th>Condition</th></tr>
+  <tr><td class="star">★★★</td><td>moves ≤ par</td></tr>
+  <tr><td class="star">★★</td><td>moves ≤ ⌈par × 1.4⌉</td></tr>
+  <tr><td class="star">★</td><td>finished (above that)</td></tr>
 </table>
-<div class="tip">All levels verified solvable. Dead-end states are possible — undo/restart are part of the game.</div>
+<h2>Levels (30 total)</h2>
+<table>
+  <tr><th>#</th><th>Theme</th><th>Boxes</th><th>Difficulty</th><th>Par</th></tr>
+  <tr><td>1</td><td>Straight down (tutorial)</td><td>2</td><td class="star">★1</td><td class="par">14</td></tr>
+  <tr><td>2</td><td>Horizontal pushes</td><td>2</td><td class="star">★1</td><td class="par">16</td></tr>
+  <tr><td>3</td><td>First corner turn</td><td>2</td><td class="star">★★</td><td class="par">16</td></tr>
+  <tr><td>4</td><td>Move order (clear the blocker first)</td><td>2</td><td class="star">★★</td><td class="par">18</td></tr>
+  <tr><td>5</td><td>Two routes</td><td>2</td><td class="star">★★</td><td class="par">19</td></tr>
+  <tr><td>6</td><td>Elbow Room <span class="new">🆕</span></td><td>3</td><td class="star">★★★</td><td class="par">30</td></tr>
+  <tr><td>7</td><td>Up the Aisle <span class="new">🆕</span></td><td>3</td><td class="star">★★★</td><td class="par">35</td></tr>
+  <tr><td>8</td><td>Pushing up — rethink</td><td>3</td><td class="star">★★★</td><td class="par">27</td></tr>
+  <tr><td>9</td><td>Offset trio, bottom-row slides</td><td>2</td><td class="star">★★★</td><td class="par">17</td></tr>
+  <tr><td>10</td><td>Central Isle <span class="new">🆕</span></td><td>4</td><td class="star">★★★</td><td class="par">43</td></tr>
+  <tr><td>11</td><td>Three boxes in a row (ordering)</td><td>3</td><td class="star">★★★</td><td class="par">24</td></tr>
+  <tr><td>12</td><td>Fill wall-side goals in order</td><td>3</td><td class="star">★★★</td><td class="par">41</td></tr>
+  <tr><td>13</td><td>Cross Wall <span class="new">🆕</span></td><td>4</td><td class="star">★★★★</td><td class="par">36</td></tr>
+  <tr><td>14</td><td>Order + turns mixed</td><td>4</td><td class="star">★★★★</td><td class="par">35</td></tr>
+  <tr><td>15</td><td>Shared corridor conflict</td><td>3</td><td class="star">★★★★</td><td class="par">25</td></tr>
+  <tr><td>16</td><td>Symmetric four-corner approach</td><td>4</td><td class="star">★★★★</td><td class="par">43</td></tr>
+  <tr><td>17</td><td>Corner Targets <span class="new">🆕</span></td><td>4</td><td class="star">★★★★</td><td class="par">45</td></tr>
+  <tr><td>18</td><td>Four Corners Rally</td><td>4</td><td class="star">★★★★</td><td class="par">93</td></tr>
+  <tr><td>19</td><td>Double-door bottleneck</td><td>3</td><td class="star">★★★★+</td><td class="par">54</td></tr>
+  <tr><td>20</td><td>Two Rooms <span class="new">🆕</span></td><td>3</td><td class="star">★★★★+</td><td class="par">67</td></tr>
+  <tr><td>21</td><td>Double Detour</td><td>4</td><td class="star">★★★★★</td><td class="par">56</td></tr>
+  <tr><td>22</td><td>Sorting Dead Ends <span class="new">🆕</span></td><td>6</td><td class="star">★★★★+</td><td class="par">58</td></tr>
+  <tr><td>23</td><td>Six-Slot Rotation</td><td>6</td><td class="star">★★★★★+</td><td class="par">115</td></tr>
+  <tr><td>24</td><td>Zigzag Five <span class="new">🆕</span></td><td>5</td><td class="star">★★★★★</td><td class="par">205</td></tr>
+  <tr><td>25</td><td>Five Lanes</td><td>5</td><td class="star">★★★★★+</td><td class="par">217</td></tr>
+  <tr><td>26</td><td>Counter-Flow <span class="re">♻ redesigned</span></td><td>6</td><td class="star">★★★★★+</td><td class="par">111</td></tr>
+  <tr><td>27</td><td>The Long Way <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★+</td><td class="par">161</td></tr>
+  <tr><td>28</td><td>Grand Gridlock <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★++</td><td class="par">110</td></tr>
+  <tr><td>29</td><td>The Grand Parade <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★++</td><td class="par">91</td></tr>
+  <tr><td>30</td><td><strong>Classic Sokoban L1 homage (final)</strong></td><td>6</td><td class="star">★★★★★++</td><td class="par">355</td></tr>
+</table>
+<div class="tip">🆕 = new in v2.0 · ♻ = layout replaced (the old “Six-Slot Service” exceeded verification limits and became the A*-verified “Grand Gridlock”). <strong>All 30 levels are verified solvable with the bundled A* solver</strong> (results cached in <code>tools/par-cache.json</code>). Dead ends are possible — undo/restart are part of the game.</div>
 <h2>Save data</h2>
-<p>Key <code>boxflow_save_v1</code> in localStorage; per level: <code>done</code>, <code>best</code>, <code>state</code>. Delete the key to reset.</p>
+<p>Key <code>boxflow_save_v2</code> in localStorage; per level <code>done</code> / <code>best</code> / <code>stars</code> / <code>state</code>, global <code>lang</code> / <code>sound</code> / <code>next</code>. Auto-migrates from the 20-level <code>boxflow_save_v1</code> (clears &amp; bests remap; in-progress states restored only where the layout is unchanged). Delete the key to reset.</p>
 <h2>Tech notes</h2>
 <ul>
-  <li>Single HTML file (HTML + CSS + vanilla JS); board managed as 2D arrays</li>
-  <li>Levels are row-string arrays (<code>#</code> wall, <code>.</code> goal, <code>$</code> box, <code>@</code> player). Append to <code>LEVELS</code> to add more</li>
-  <li>AudioContext unlocked on first user gesture (autoplay-policy compliant; the very first tap may be silent)</li>
+  <li>Single HTML file; static tiles + absolutely positioned sprites give the sliding animation</li>
+  <li>Levels are row strings (<code>#</code> wall, <code>.</code> goal, <code>$</code> box, <code>@</code> player). Edit <code>tools/levels-data.mjs</code>, then run <code>node tools/build-levels.mjs</code> to inject verified pars into <code>index.html</code></li>
+  <li><code>tools/</code> (dev-only): <code>solver.mjs</code> — push-optimal A* (push-distance × Hungarian assignment heuristic; corner-freeze and 2×2-block deadlock pruning) / <code>build-levels.mjs</code> — verify &amp; inject / <code>gen-level.mjs</code> — reverse-pull generator (solvable by construction) / <code>par-cache.json</code> — results</li>
+  <li>Fonts via Google Fonts CDN (the only external dependency); system fallback keeps the game playable offline</li>
+  <li>AudioContext unlocked on first user gesture; vibration on supported devices</li>
 </ul>
 <h2>Changelog</h2>
 <table>
   <tr><th>Ver</th><th>Changes</th></tr>
-  <tr><td>v1.0–1.1</td><td>Initial release / fixed LEVELS[0].split error, added bounds guards</td></tr>
-  <tr><td>v1.2–1.4</td><td>Expanded to 8→15 levels, level progression &amp; best moves, AudioContext warning fix, advanced levels</td></tr>
-  <tr><td>v1.5</td><td>Fixed restart not re-rendering the board</td></tr>
-  <tr><td>v1.6</td><td>Finalized L18, added L19 &quot;Six-slot service column&quot;, moved classic to final L20 (20 levels)</td></tr>
+  <tr><td>v1.0–1.1</td><td>Initial release / <code>LEVELS[0].split</code> fix, out-of-bounds guard</td></tr>
+  <tr><td>v1.2–1.4</td><td>8→15 levels, level progression, AudioContext fix, hard levels</td></tr>
+  <tr><td>v1.5</td><td><code>render()</code> fix on restart</td></tr>
+  <tr><td>v1.6</td><td>Final L18 swap, added L19, classic homage as final L20 (20 total)</td></tr>
+  <tr><td><strong>v2.0</strong></td><td><strong>30 levels</strong> (11 new + redesigned Counter-Flow + Six-Slot Service → Grand Gridlock) / level selection (locks, stars, bests) / star rating &amp; par / slide animations &amp; confetti / Google Fonts with offline fallback / shortcuts R·L·M·Esc / haptics / save v2 with auto-migration / all levels verified with the bundled A* solver</td></tr>
 </table>
 </div>
 
 <!-- ======================= ZH ======================= -->
-<div class="lang" id="lang-zh" style="display:none">
+<div class="lang" id="lang-zh" hidden>
 <h2>特性</h2>
 <ul>
   <li>📱 手机优先竖屏布局（适配安全区）/ PC 键盘支持</li>
-  <li>🎮 三种操作：滑动 / 屏幕方向键 / 方向键与 WASD</li>
-  <li>🔊 音效开关（Web Audio API 合成音，无需外部文件）</li>
-  <li>🌐 多语言（ja / en / zh，自动检测＋手动切换）</li>
-  <li>💾 localStorage 自动保存（通关状态、最佳步数、中断进度、设置）</li>
-  <li>🧩 共 20 关难度递进。↩撤销 / 🔄重来</li>
-  <li>⚖️ 零依赖、零构建</li>
+  <li>🎮 滑动 / 屏幕方向键 / 方向键与 WASD</li>
+  <li>🗂 <strong>关卡选择</strong>（30 格网格：锁定 / 通关 / ★ / 最佳步数；L 键）</li>
+  <li>⭐ <strong>★评级与标准杆（par）</strong>：每关内置 A* 验证的 par</li>
+  <li>🧩 <strong>共 30 关</strong>（v1.6 的 20 关全部保留 + 新增 11 关 + 重制 1 关）。↩撤销 / 🔄重来</li>
+  <li>✨ 箱子与玩家滑动动画、通关彩带、震动（支持的设备）</li>
+  <li>🔤 Google Fonts（Outfit / Zen Maru Gothic）——唯一外部引用；离线自动回退系统字体</li>
+  <li>🔊 音效开关（Web Audio API）/ 🌐 多语言（ja / en / zh）</li>
+  <li>💾 <code>localStorage</code> 自动保存（v2 格式，自动从 v1 迁移）</li>
+  <li>⚖️ 运行零依赖、零构建（<code>tools/</code> 仅供开发）</li>
 </ul>
 <h2>启动方式</h2>
-<p>用浏览器打开 <code>index.html</code> 即可（支持 <code>file://</code>，可离线），可直接部署到任意静态托管。</p>
+<p>用浏览器打开 <code>index.html</code> 即可（支持 <code>file://</code>、可离线）。可直接部署到任意静态托管。</p>
 <h2>玩法</h2>
-<p>把所有箱子推到发光目标点。<strong>推箱子规则</strong>：不能拉、不能同时推两个、不可推入墙/箱/边界外。</p>
+<p>把所有箱子推到发光目标点。<strong>推箱子规则</strong>（不能拉、不能同时推两个、不可推入墙/箱/边界外）。</p>
 <table>
   <tr><th>操作</th><th>手机</th><th>PC</th></tr>
   <tr><td>移动</td><td>滑动 / 方向键</td><td>↑↓←→ / WASD</td></tr>
   <tr><td>撤销</td><td>↩ 按钮</td><td>Z / U</td></tr>
-  <tr><td>重来</td><td>🔄 按钮</td><td>—</td></tr>
+  <tr><td>重来</td><td>🔄 按钮</td><td>R</td></tr>
+  <tr><td>选关</td><td>点关卡标签</td><td>L</td></tr>
+  <tr><td>音效</td><td>🔊 按钮</td><td>M</td></tr>
+  <tr><td>关闭</td><td>×</td><td>Esc</td></tr>
 </table>
-<h2>关卡一览（共20关）</h2>
+<h3>★评级与标准杆</h3>
+<p>par = A* 验证的“最优推数解”的实际步数（走＋推）。全局最短步数可能更低。</p>
 <table>
-  <tr><th>关</th><th>主题</th><th>箱数</th><th>难度</th></tr>
-  <tr><td>1</td><td>直下推（新手教程）</td><td>2</td><td class="star">★1</td></tr>
-  <tr><td>2</td><td>横向推动</td><td>2</td><td class="star">★1</td></tr>
-  <tr><td>3</td><td>首次转弯</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>4</td><td>移动顺序（先移开路箱）</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>5</td><td>双箱各一弯 / 路线选择</td><td>2</td><td class="star">★★</td></tr>
-  <tr><td>6</td><td>向上推的思维转换</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>7</td><td>错位三箱·下排横滑</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>8</td><td>三箱直线目标（顺序）</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>9</td><td>贴墙目标按序填充</td><td>3</td><td class="star">★★★</td></tr>
-  <tr><td>10</td><td>四箱·顺序＋转弯混合</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>11</td><td>共用通道冲突</td><td>3</td><td class="star">★★★★</td></tr>
-  <tr><td>12</td><td>四角对称逼近</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>13</td><td>H3「四角集结」</td><td>4</td><td class="star">★★★★</td></tr>
-  <tr><td>14</td><td>双门瓶颈</td><td>3</td><td class="star">★★★★+</td></tr>
-  <tr><td>15</td><td>H1「双重迂回」</td><td>4</td><td class="star">★★★★★</td></tr>
-  <tr><td>16</td><td>H2「六格旋转」</td><td>6</td><td class="star">★★★★★+</td></tr>
-  <tr><td>17</td><td>五通道服务列</td><td>5</td><td class="star">★★★★★+</td></tr>
-  <tr><td>18</td><td>逆流分配</td><td>6</td><td class="star">★★★★★+</td></tr>
-  <tr><td>19</td><td>六格服务列</td><td>6</td><td class="star">★★★★★++</td></tr>
-  <tr><td>20</td><td><strong>元祖推箱子第1关致敬（最终关）</strong></td><td>6</td><td class="star">★★★★★++</td></tr>
+  <tr><th>★</th><th>条件</th></tr>
+  <tr><td class="star">★★★</td><td>步数 ≤ par</td></tr>
+  <tr><td class="star">★★</td><td>步数 ≤ ⌈par×1.4⌉</td></tr>
+  <tr><td class="star">★</td><td>通关（更多）</td></tr>
 </table>
-<div class="tip">全部关卡均已验证可解。部分关卡可能走入死局，撤销/重来是游戏的一部分。</div>
+<h2>关卡一览（共30关）</h2>
+<table>
+  <tr><th>关</th><th>主题</th><th>箱数</th><th>难度</th><th>par</th></tr>
+  <tr><td>1</td><td>直下推（新手教程）</td><td>2</td><td class="star">★1</td><td class="par">14</td></tr>
+  <tr><td>2</td><td>横向推动</td><td>2</td><td class="star">★1</td><td class="par">16</td></tr>
+  <tr><td>3</td><td>首次转弯</td><td>2</td><td class="star">★★</td><td class="par">16</td></tr>
+  <tr><td>4</td><td>移动顺序（先移开路箱）</td><td>2</td><td class="star">★★</td><td class="par">18</td></tr>
+  <tr><td>5</td><td>双路线</td><td>2</td><td class="star">★★</td><td class="par">19</td></tr>
+  <tr><td>6</td><td>肘形通道 <span class="new">🆕</span></td><td>3</td><td class="star">★★★</td><td class="par">30</td></tr>
+  <tr><td>7</td><td>向上通道 <span class="new">🆕</span></td><td>3</td><td class="star">★★★</td><td class="par">35</td></tr>
+  <tr><td>8</td><td>向上推的思维转换</td><td>3</td><td class="star">★★★</td><td class="par">27</td></tr>
+  <tr><td>9</td><td>下排横滑</td><td>2</td><td class="star">★★★</td><td class="par">17</td></tr>
+  <tr><td>10</td><td>中央小岛 <span class="new">🆕</span></td><td>4</td><td class="star">★★★</td><td class="par">43</td></tr>
+  <tr><td>11</td><td>三箱直线（顺序）</td><td>3</td><td class="star">★★★</td><td class="par">24</td></tr>
+  <tr><td>12</td><td>贴墙目标按序填充</td><td>3</td><td class="star">★★★</td><td class="par">41</td></tr>
+  <tr><td>13</td><td>十字壁 <span class="new">🆕</span></td><td>4</td><td class="star">★★★★</td><td class="par">36</td></tr>
+  <tr><td>14</td><td>顺序＋转弯混合</td><td>4</td><td class="star">★★★★</td><td class="par">35</td></tr>
+  <tr><td>15</td><td>共用通道冲突</td><td>3</td><td class="star">★★★★</td><td class="par">25</td></tr>
+  <tr><td>16</td><td>四角对称逼近</td><td>4</td><td class="star">★★★★</td><td class="par">43</td></tr>
+  <tr><td>17</td><td>角落目标 <span class="new">🆕</span></td><td>4</td><td class="star">★★★★</td><td class="par">45</td></tr>
+  <tr><td>18</td><td>四角集结</td><td>4</td><td class="star">★★★★</td><td class="par">93</td></tr>
+  <tr><td>19</td><td>双门瓶颈</td><td>3</td><td class="star">★★★★+</td><td class="par">54</td></tr>
+  <tr><td>20</td><td>双室一门 <span class="new">🆕</span></td><td>3</td><td class="star">★★★★+</td><td class="par">67</td></tr>
+  <tr><td>21</td><td>双重迂回</td><td>4</td><td class="star">★★★★★</td><td class="par">56</td></tr>
+  <tr><td>22</td><td>分拣死胡同 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★+</td><td class="par">58</td></tr>
+  <tr><td>23</td><td>六格旋转</td><td>6</td><td class="star">★★★★★+</td><td class="par">115</td></tr>
+  <tr><td>24</td><td>五个肘弯 <span class="new">🆕</span></td><td>5</td><td class="star">★★★★★</td><td class="par">205</td></tr>
+  <tr><td>25</td><td>五通道</td><td>5</td><td class="star">★★★★★+</td><td class="par">217</td></tr>
+  <tr><td>26</td><td>逆流分配 <span class="re">♻重制</span></td><td>6</td><td class="star">★★★★★+</td><td class="par">111</td></tr>
+  <tr><td>27</td><td>大迂回 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★+</td><td class="par">161</td></tr>
+  <tr><td>28</td><td>大堵塞 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★++</td><td class="par">110</td></tr>
+  <tr><td>29</td><td>大行列 <span class="new">🆕</span></td><td>6</td><td class="star">★★★★★++</td><td class="par">91</td></tr>
+  <tr><td>30</td><td><strong>元祖推箱子第1关致敬（最终关）</strong></td><td>6</td><td class="star">★★★★★++</td><td class="par">355</td></tr>
+</table>
+<div class="tip">🆕 = v2.0 新增 · ♻ = 版面重制（旧「六格服务列」超出验证极限，改为经 A* 验证的「大堵塞」）。<strong>全部 30 关已用自带 A* 求解器验证可解</strong>（结果存于 <code>tools/par-cache.json</code>）。可能出现死局，撤销/重来是游戏的一部分。</div>
 <h2>存档</h2>
-<p>localStorage 键 <code>boxflow_save_v1</code>，每关含 <code>done</code> / <code>best</code> / <code>state</code>。删除该键即可重置。</p>
+<p>localStorage 键 <code>boxflow_save_v2</code>；每关 <code>done</code> / <code>best</code> / <code>stars</code> / <code>state</code>，全局 <code>lang</code> / <code>sound</code> / <code>next</code>。自动从旧 20 关的 <code>boxflow_save_v1</code> 迁移（通关与最佳映射到新关卡；未完成进度仅在版面未变的关卡恢复）。删除该键即可重置。</p>
 <h2>技术说明</h2>
 <ul>
-  <li>单 HTML 文件（HTML + CSS + 原生 JS），盘面用二维数组管理</li>
-  <li>关卡为行字符串数组（<code>#</code>墙 <code>.</code>目标 <code>$</code>箱 <code>@</code>玩家），向 <code>LEVELS</code> 追加即可加关</li>
-  <li>首次用户操作解锁 AudioContext（符合自动播放策略，首次点击可能无声）</li>
+  <li>单个 HTML；静态地块＋绝对定位精灵实现滑动动画</li>
+  <li>关卡为行字符串（<code>#</code>墙 <code>.</code>目标 <code>$</code>箱 <code>@</code>玩家）：改 <code>tools/levels-data.mjs</code> 后运行 <code>node tools/build-levels.mjs</code> 注入验证过的 par</li>
+  <li><code>tools/</code>（仅开发用）：<code>solver.mjs</code>＝最优推数 A*（推距×匈牙利指派启发式，角冻结与 2×2 死锁剪枝）／<code>build-levels.mjs</code>＝验证与注入／<code>gen-level.mjs</code>＝逆向拉箱生成（构造性可解）／<code>par-cache.json</code>＝结果</li>
+  <li>字体引用 Google Fonts CDN（唯一外部依赖），不可达时回退系统字体</li>
+  <li>首次操作解锁 AudioContext；支持的设备会震动</li>
 </ul>
 <h2>更新日志</h2>
 <table>
   <tr><th>版本</th><th>内容</th></tr>
-  <tr><td>v1.0–1.1</td><td>首发 / 修复 LEVELS[0].split 错误、增加越界保护</td></tr>
-  <tr><td>v1.2–1.4</td><td>扩展至 8→15 关、关卡进度与最佳步数、修复 AudioContext 警告、追加高难关卡</td></tr>
-  <tr><td>v1.5</td><td>修复重按重来按钮不刷新画面的问题</td></tr>
-  <tr><td>v1.6</td><td>确定版 L18、新增 L19「六格服务列」、元祖关移至最终 L20（共20关）</td></tr>
+  <tr><td>v1.0–1.1</td><td>初版发布 / <code>LEVELS[0].split</code> 修复、越界保护</td></tr>
+  <tr><td>v1.2–1.4</td><td>8→15 关、关卡推进、AudioContext 修复、高难关</td></tr>
+  <tr><td>v1.5</td><td>重来时 <code>render()</code> 缺失修复</td></tr>
+  <tr><td>v1.6</td><td>L18 定版替换、新增 L19、经典致敬作最终 L20（共 20 关）</td></tr>
+  <tr><td><strong>v2.0</strong></td><td><strong>30 关</strong>（新增 11＋重制逆流分配＋六格服务列→大堵塞）／选关界面（锁定·★·最佳）／★评级与 par／滑动动画与彩带／Google Fonts 离线回退／快捷键 R·L·M·Esc／震动／存档 v2＋自动迁移／全部关卡经自带 A* 求解器验证</td></tr>
 </table>
 </div>
 
-<h2 id="license">License / クレジット / 许可</h2>
-<p>本作为受《仓库番（Sokoban, 1982）》启发之原创实现；标题「BoxFlow」・图形・代码均为原创。L20 为经典第1关之致敬布局。代码可自由使用（欢迎注明出处）。<br>
-An original implementation inspired by Sokoban (1982). Title, graphics and code are original. L20 is a homage to the classic level 1.</p>
-
-<footer>Made with Vanilla JS. Enjoy pushing boxes! 📦</footer>
+<footer>BoxFlow v2.0 · Sokoban（仓库番, 1982）に着想を得たオリジナル実装 · 単一HTML・依存ゼロ · License: free to use with attribution / 自由使用（注明出处即可）</footer>
 </div>
 
 <script>
-(function(){
-  const LEADS={
-    ja:"サーバー不要・単一HTMLファイルの倉庫番風パズルゲーム。スマホ（縦長）主体・PC対応。",
-    en:"A single-file Sokoban-style puzzle game. No server needed. Mobile-first (portrait), also great on PC.",
-    zh:"单文件推箱子风格解谜游戏。无需服务器，手机竖屏优先，同时支持电脑。"
-  };
-  const btns=document.querySelectorAll(".langbar button");
-  function show(lang){
-    document.querySelectorAll(".lang").forEach(el=>el.style.display="none");
-    document.getElementById("lang-"+lang).style.display="";
-    btns.forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
-    document.getElementById("lead").textContent=LEADS[lang];
-    document.documentElement.lang=lang;
-    try{ localStorage.setItem("boxflow_readme_lang",lang); }catch(e){}
-  }
-  btns.forEach(b=>b.onclick=()=>show(b.dataset.lang));
-  let saved=null;
-  try{ saved=localStorage.getItem("boxflow_readme_lang"); }catch(e){}
-  const nav=(navigator.language||"en").slice(0,2);
-  const initial = ["ja","en","zh"].includes(saved)?saved:(["ja","en","zh"].includes(nav)?nav:"en");
-  show(initial);
-})();
+const btns=document.querySelectorAll(".langbar button");
+btns.forEach(b=>b.addEventListener("click",()=>{
+  btns.forEach(x=>x.classList.toggle("active",x===b));
+  document.querySelectorAll(".lang").forEach(d=>{d.hidden=(d.id!=="lang-"+b.dataset.lang);});
+}));
 </script>
 </body>
 </html>
